@@ -74,6 +74,11 @@ body {
   background: var(--panel-2); border: 1px solid var(--border);
 }
 .control.check input[type="checkbox"] { width: 24px; height: 24px; flex: 0 0 auto; }
+.control.check.spaced-on {
+  background: rgba(52, 211, 153, 0.15);
+  border-color: var(--good);
+}
+.control.check.spaced-on span { color: var(--good); font-weight: 600; }
 
 main { max-width: 960px; margin: 0 auto; display: grid; gap: 20px; }
 

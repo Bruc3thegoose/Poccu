@@ -12,7 +12,8 @@
     hideList: true,
     speak: true,
     direction: "ru2en",
-    letter: "random",
+    spaced: false,
+    cooldowns: {},
     rolls: 0,
     cycling: false,
     timerId: null,
@@ -28,13 +29,14 @@
   const btnNew = $("#btn-new");
   const btnPause = $("#btn-pause");
   const sizeEl = $("#size");
-  const letterEl = $("#letter");
   const dirEl = $("#direction");
   const speedEl = $("#speed");
   const speedLabel = $("#speed-label");
   const revealEl = $("#reveal");
   const hideListEl = $("#hide-list");
   const speakEl = $("#speak");
+  const spacedEl = $("#spaced");
+  const spacedLabel = $("#spaced-label");
 
   function rng(max) {
     return Math.floor(Math.random() * max);
@@ -63,36 +65,14 @@
     window.speechSynthesis.speak(u);
   }
 
-  // Words grouped by their first Cyrillic character.
-  const BY_LETTER = WORDS.reduce((acc, w) => {
-    const letter = w.ru.charAt(0);
-    (acc[letter] = acc[letter] || []).push(w);
-    return acc;
-  }, {});
-
-  // Draw a random starting letter (or the user-chosen one), then a
-  // random subset of its words. Returns { letter, words }.
+  // Pure random subset from the whole word bank (no letter grouping).
   function sampleWords(n) {
-    const letters = Object.keys(BY_LETTER);
-
-    let letter;
-    if (state.letter === "random") {
-      letter = letters[rng(letters.length)];
-      // Prefer a letter that has enough words for the requested subset size.
-      const enough = letters.filter((l) => BY_LETTER[l].length >= n);
-      if (enough.length) letter = enough[rng(enough.length)];
-    } else if (BY_LETTER[state.letter]) {
-      letter = state.letter;
-    } else {
-      letter = letters[rng(letters.length)];
-    }
-
-    const pool = BY_LETTER[letter].slice();
-    for (let i = pool.length - 1; i > 0; i--) {
+    const arr = WORDS.slice();
+    for (let i = arr.length - 1; i > 0; i--) {
       const j = rng(i + 1);
-      [pool[i], pool[j]] = [pool[j], pool[i]];
+      [arr[i], arr[j]] = [arr[j], arr[i]];
     }
-    return { letter, words: pool.slice(0, Math.min(n, pool.length)) };
+    return arr.slice(0, Math.min(n, arr.length));
   }
 
   function renderGrid() {
@@ -116,8 +96,18 @@
 
   function roll() {
     if (!state.subset.length) return;
-    const idx = rng(state.subset.length);
-    const w = state.subset[idx];
+
+    // Spaced repetition: only roll words that aren't on cooldown.
+    let candidates = state.subset;
+    if (state.spaced) {
+      const unlocked = state.subset.filter((w) => (state.cooldowns[w.ru] || 0) === 0);
+      if (unlocked.length) candidates = unlocked;
+    }
+
+    const w = candidates[rng(candidates.length)];
+    const idx = state.subset.indexOf(w);
+
+    if (state.spaced) state.cooldowns[w.ru] = 3;
 
     // Restart the flip animation on every roll.
     cycleCard.classList.remove("animate");
@@ -156,14 +146,20 @@
   }
 
   function newSelection() {
-    const picked = sampleWords(state.size);
-    state.subset = picked.words;
+    // Spaced repetition: each new selection releases locked words by one step.
+    if (state.spaced) {
+      for (const k in state.cooldowns) {
+        if (state.cooldowns[k] > 0) state.cooldowns[k] -= 1;
+      }
+    }
+
+    state.subset = sampleWords(state.size);
     state.rolls = 0;
     rollCountEl.textContent = "0";
     renderGrid();
     stopCycling();
     startCycling();
-    statusEl.textContent = `— ${state.subset.length} words · letter "${picked.letter}"`;
+    statusEl.textContent = `— ${state.subset.length} random words in play`;
   }
 
   function updateControls() {
@@ -176,11 +172,6 @@
 
   sizeEl.addEventListener("change", () => {
     state.size = Number(sizeEl.value);
-    newSelection();
-  });
-
-  letterEl.addEventListener("change", () => {
-    state.letter = letterEl.value;
     newSelection();
   });
 
@@ -212,15 +203,12 @@
     if (!state.speak && "speechSynthesis" in window) window.speechSynthesis.cancel();
   });
 
-  speedLabel.textContent = (state.speedMs / 1000).toFixed(1) + " s";
-
-  // Populate the letter dropdown with every Cyrillic letter in the bank.
-  Object.keys(BY_LETTER).sort().forEach((l) => {
-    const opt = document.createElement("option");
-    opt.value = l;
-    opt.textContent = l + " (" + BY_LETTER[l].length + ")";
-    letterEl.appendChild(opt);
+  spacedEl.addEventListener("change", () => {
+    state.spaced = spacedEl.checked;
+    spacedLabel.classList.toggle("spaced-on", state.spaced);
   });
+
+  speedLabel.textContent = (state.speedMs / 1000).toFixed(1) + " s";
 
   newSelection();
 })();

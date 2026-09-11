@@ -1,1206 +1,1001 @@
 // Word bank — one "russian,english" pair per line.
-// Add or edit lines freely; the parser below handles the rest.
+// Sorted by Russian character. Add or edit lines freely.
 const WORDS = (function () {
-  const raw = `август,August
-автобус,bus
-адрес,address
-аптека,pharmacy
-армия,army
-артист,artist-performer
-атака,attack
-атом,atom
-аэропорт,airport
-авария,accident-breakdown
-агент,agent
-адвокат,lawyer
-академия,academy
-аквариум,aquarium
-актёр,actor
-акция,action-share-promotion
-аллея,alley-avenue
-альбом,album
-анализ,analysis
-анкета,form-questionnaire
-ансамбль,ensemble
-апельсин,orange
-аппарат,apparatus-device
-аппетит,appetite
-арбуз,watermelon
-аргумент,argument
-арест,arrest
-аромат,aroma
-архив,archive
-астроном,astronomer
-аудитория,audience-classroom
-авторитет,authority
-агрессия,aggression
-активный,active
-алый,scarlet
-ангел,angel
-архитектор,architect
-аспект,aspect
-атлас,atlas-satin
-афиша,poster-playbill
-абзац,paragraph
-абонент,subscriber
-авиация,aviation
+  const raw = `а,while, and, but
 автор,author
-агентство,agency
-азбука,alphabet-primer
-айсберг,iceberg
-акцент,accent
-алмаз,diamond
-аптекарь,pharmacist
+американский,American
+армия,army
+ах,ah!, oh!
+баба,woman, wife, old woman
 бабушка,grandmother
-багаж,luggage
-база,base
-баланс,balance
-балкон,balcony
 банк,bank
-баня,bathhouse
-бар,bar
-бассейн,pool
-башня,tower
-бег,running
-беда,trouble-misfortune
-белка,squirrel
+бежать,to run, hurry
+без,without
 белый,white
-берег,shore
-берёза,birch
-беседа,conversation
-библиотека,library
-бизнес,business
-билет,ticket
-бинокль,binoculars
-биология,biology
-благо,good-benefit
-бланк,form-sheet
-блеск,shine-glitter
-блин,pancake
-блок,block
-бобр,beaver
-богатый,rich
-боец,fighter
-бой,fight-battle
-бок,side
-болезнь,illness
-болото,swamp
+берег,bank, shore, coast
+бить,to beat, hit
+близкий,near, similar; intimate
+бог,god
+бой,battle, fight, combat
+бок,side, flank
+более,more
+болезнь,illness, sickness, disease
 боль,pain
-большой,big
-борт,board-side
-босс,boss
-бот,bot
+больной,sick
+большинство,majority
+большой,big, large, important
+борьба,fight, struggle
+бояться,to be afraid, fear
 брат,brother
-бревно,log
-бригада,brigade-crew
-бровь,eyebrow
-бронза,bronze
-брюки,trousers
-буква,letter
-букет,bouquet
+брать,to take; hire
+бросить,to throw
+будто,as if, as though
+будущее,future
 бумага,paper
-бусы,beads
 бутылка,bottle
-вагон,carriage
-ванна,bath
-варенье,jam
-вариант,variant-option
-вата,cotton
-вдова,widow
-ведро,bucket
-век,century-age
+бы,would
+бывать,be, visit, happen
+бывший,former, ex-
+быстро,fast, quickly
+быстрый,quick, fast
+быть,to be
+в,in, at
+важный,important
+ваш,yours
+вверх,up, upwards
+вдруг,suddenly
+ведь,you see, you know
+век,century, age
 великий,great
-велосипед,bicycle
-вена,vein
-веник,broom
-вера,faith
-верблюд,camel
-верёвка,rope
-верный,faithful-correct
-вес,weight
-весело,cheerfully
-весна,spring
-весть,news-tidings
+вера,faith, belief
+верить,to believe
+вернуться,to return
+верный,correct; faithful; reliable
+веселый,cheerful, merry
+вести,to lead
+весь,all, everything
+весьма,very, highly, greatly
 ветер,wind
-ветка,branch
 вечер,evening
 вещь,thing
-взгляд,glance-view
-взнос,contribution
-взрыв,explosion
-вид,view-kind
-виза,visa
-вилка,fork
+взгляд,look, glance; view
+взглянуть,to look, give a glance
+вздохнуть,to take breath, to sigh
+взять,to take
+вид,appearance, look, view
+видеть,to see
+видимо,apparently, seemingly
+видно,evidently, obviously
 вино,wine
-вирус,virus
-вклад,contribution-deposit
-вкус,taste
+висеть,to hang
 власть,power
-влияние,influence
-вниз,down
+вместе,together
+вместо,instead
+вниз,down, downwards
 внимание,attention
-внук,grandson
+вновь,again, once more
+внутренний,inside, internal
+во,in, at; super, exactly
+вовсе,quiet; not … at all
 вода,water
-вождь,leader
-воз,cart
+водка,vodka
+военный,military
+возвращаться,to return
+воздух,air
+возле,by, near, close by
+возможно,as… as possible
+возможность,possibility, opportunity, chance
+возникать,to arise, appear
+возникнуть,to arise, spring up
+возраст,age
 война,war
-вокзал,station
-волк,wolf
-волна,wave
-воля,will-freedom
-вор,thief
-ворота,gate
-восток,east
-гавань,harbor
-газ,gas
+войти,to enter, come in
+вокруг,around
+волос,hair
+воля,will
+вон,out
+вообще,in general, altogether, on the whole
+вопрос,question, matter, problem
+ворот,collar
+вот,here, there, this is, that's
+впервые,for the first time
+вперед,forward
+впереди,before, in front of
+вполне,quite, fully
+впрочем,however, though
+враг,enemy
+врач,physician, doctor
+время,time, season
+вроде,like, not unlike
+всегда,always
+вскоре,soon, shortly
+вспоминать,to remember, recall
+вспомнить,to remember, recall
+встать,to get up, rise, stand up
+встретить,to meet
+встреча,meeting, reception
+всякое,any, every
+второй,second
+входить,to enter, come in
+вчера,yesterday
+вы,you
+выглядеть,to look
+вызвать,to call, send
+вызывать,to call, send
+выйти,to go out, come out, appear
+выпить,to drink
+выражение,expression
+высокий,tall, high
+выход,exit
+выходить,to go out; nurse
+выше,higher
 газета,newspaper
-галстук,tie
-гараж,garage
-гвоздь,nail
-гений,genius
-география,geography
-герб,coat-of-arms
+где,where
+генерал,general
 герой,hero
-гибель,death-doom
-гид,guide
-гимн,anthem
-гипотеза,hypothesis
-глава,chapter-head
-гладкий,smooth
-глаз,eye
-глина,clay
-глубина,depth
-глупый,stupid
-гнездо,nest
+глава,head, chief
+главный,main, chief
+глаз,eye; sight
+глубокий,deep
+глядеть,to look, gaze
+говорить,to say, to tell, to speak
 год,year
-гол,goal
-голова,head
+голова,head, mind, brains
 голос,voice
-голубь,pigeon
-гора,mountain
-горе,grief
-горло,throat
-город,city
-горох,peas
-гости,guests
+голубой,blue, sky-blue
+гора,mountain, hill
+гореть,to burn
+город,town, city
+горячий,hot
+господин,gentleman, Mr.
 гость,guest
-государство,state
+государственный,State
+государство,State
 готовый,ready
-град,hail-city
+гражданин,citizen
 граница,border
-графика,graphics
-гребень,comb-crest
-грех,sin
-гриб,mushroom
-грипп,flu
-гром,thunder
-грудь,chest
-груз,cargo
+грудь,breast, chest
 группа,group
-грязь,mud
 губа,lip
-гудок,horn-buzzer
-гусь,goose
-давление,pressure
-далёкий,distant
-дама,lady
-дань,tribute
-дата,date
-дача,cottage
+да,yes, but
+давать,to give; let, allow
+давно,long ago
+даже,even
+далекий,distant, remote
+далеко,far, far off
+дама,lady, partner, queen
+данный,given, present
+дать,to give
+два,two
+двадцать,twenty
 дверь,door
+двигаться,to move
 движение,movement
-двор,yard
-дебют,debut
-девочка,girl
-дед,grandfather
-дело,matter-business
+двое,two
+двор,yard, court
+девочка,girl, little girl
+девушка,girl, miss
+дед,grandfather, old man
+действие,action, effect
+действительно,indeed, really
+действовать,to act
+делать,to do, make
+дело,business, affair, matter
 день,day
 деньги,money
-депутат,deputy
-деревня,village
+деревня,village, country
 дерево,tree
-держава,power-state
-десерт,dessert
-дети,children
-деталь,detail-part
-дешёвый,cheap
-деятель,figure-activist
-диагноз,diagnosis
-диалог,dialogue
-диван,sofa
-дивизия,division
-диета,diet
-дизайн,design
-дикий,wild
-диплом,diploma
-директор,director
-диск,disk
-дитя,child
-длина,length
-дно,bottom
-добро,good
-добыча,extraction-prey
-довод,argument-reason
-договор,contract
+держать,to hold, keep
+держаться,to hold on, behave
+десяток,ten, dozens
+десять,ten
+детский,child's, children's
+детство,childhood
+директор,director, manager
+длинный,long
+для,for, to
+до,to, up to, about, before
+добавить,to add
+добрый,kind
+довольно,enough; rather
 дождь,rain
-доклад,report
 доктор,doctor
 документ,document
-долг,debt-duty
-долина,valley
-дом,house
-доска,board
+долгий,long
+долго,for a long time
+должный,due, proper
+дом,house, home
+домой,home
+дорога,road, way, journey
+дорогой,on the way
+достаточно,enough, sufficiently
+достать,to reach; get, obtain
 дочь,daughter
-жаба,toad
-жадный,greedy
-жакет,jacket
-жалоба,complaint
-жалость,pity
-жанр,genre
-жара,heat
-жареный,fried
-жасмин,jasmine
-жатва,harvest
-жать,to-press-reap
-жвачка,gum
-жевать,to-chew
-желание,wish-desire
-желе,jelly
-железо,iron
-желток,yolk
-жёлтый,yellow
-желудок,stomach
+друг,friend
+другой,other, another, different
+думать,to think; believe
+дурак,fool, idiot
+дух,spirit
+душа,soul, spirit
+дым,smoke
+дядя,uncle
+едва,hardly, just, barely
+единственный,only, sole
+если,if
+есть,to eat, to be
+ехать,to go, ride, drive, travel
+ещё,still, yet
+ж,and, as for, but
+ждать,to wait
+же,and, as for, but, same
+желание,wish
+желать,to wish
+железный,ferreous, iron
+желтый,yellow
 жена,wife
-жених,fiancé
-жерло,muzzle-crater
-жертва,victim
-жестокий,cruel
-жесть,tin-harshness
-жест,gesture
-живой,alive
-живот,belly
-жидкий,liquid
+женщина,woman
+живой,living, live, lively
+живот,stomach, belly
 жизнь,life
-жила,vein
-жилет,vest
-жилище,dwelling
-жир,fat
-житель,inhabitant
-жребий,lot-fate
-жрец,priest
-жулик,swindler
-журавль,crane
-журнал,magazine
-жук,beetle
-жужжать,to-buzz
-жуть,dread
-жюри,jury
-жёсткий,hard-rigid
-жажда,thirst
-жалеть,to-pity
-ждать,to-wait
-желанный,desired
-жемчуг,pearl
-забава,amusement
-забор,fence
+жить,to live
+за,behind, over, at, after
+заболевание,disease, illness
+забыть,to forget
 завод,factory
 завтра,tomorrow
-завтрак,breakfast
-загадка,riddle
-заговор,conspiracy
-зад,rear
-задание,task
-задача,task-problem
-зажим,clamp
-зайка,bunny
-заказ,order
-закат,sunset
-закон,law
-залив,bay
-залог,pledge
-замок,lock-castle
-запад,west
-запас,stock
-запись,record-note
-запрос,request-query
-зараза,infection
-заряд,charge
-заслон,barrier
-засуха,drought
-затвор,bolt
-затея,venture
-захват,capture
-зачёт,credit-test
-защита,defense
-заяц,hare
-звание,title-rank
-звено,link
-зверь,beast
-звон,ringing
+закон,law, act, statue
+закричать,to shout, cry out
+зал,hall
+заметить,to notice, observe
+заниматься,to be occupied, engage
+запах,smell, odour, scent
+затем,then, after that
+зато,but, but then
+зачем,what for, why
+звать,to call
+звезда,star
 звук,sound
-здание,building
 здесь,here
-здоровье,health
-земля,earth-land
+здоровый,healthy
+зеленый,green
+земля,earth, land, soil
 зеркало,mirror
-зерно,grain
 зима,winter
-злоба,malice
-змея,snake
-знамя,banner
-знание,knowledge
-зонт,umbrella
-зрение,vision
-ива,willow
-игла,needle
-игра,game
-идеал,ideal
+знак,sign
+знакомый,familiar, acquainted
+знать,to know, be aware
+значить,to mean, signify
+золотой,golden
+зуб,tooth
+и,and, though
+ибо,for
+игра,game, play
+играть,to play
 идея,idea
-идол,idol
-идти,to-go
-изба,hut
-избыток,surplus
-известие,news
-известный,known
-изгиб,bend
-изделие,product
-издание,edition
-изюм,raisin
-излишек,excess
-изменение,change
-измерение,measurement
-износ,wear
-изобилие,abundance
-изумруд,emerald
-икра,caviar
+идти,to go, come
+из,from, of, in
+известный,well-known, famous
 или,or
+именно,namely, just
+иметь,to have, own
 имя,name
-индюк,turkey
-инженер,engineer
-инициатива,initiative
-инструмент,tool-instrument
-интервал,interval
-интерес,interest
-интернет,internet
-ирис,iris
-ирония,irony
-иск,lawsuit
-искусство,art
-ислам,Islam
-испуг,fright
-исследование,research
-истина,truth
-история,history-story
-итог,total
-ишак,donkey
-ищейка,bloodhound
-июль,July
-июнь,June
-икона,icon
-иллюзия,illusion
-импорт,import
-инстинкт,instinct
+иначе,otherwise, differentlyl
+иногда,sometimes
+иной,different, other
 институт,institute
-кабинет,office-study
-каблук,heel
-кавалер,gentleman
-кадр,frame-shot
-каждый,each
-казак,Cossack
-казнь,execution
-кайма,edge
-какао,cocoa
+интерес,interes
+интересно,interestingly
+интересный,interesting
+информация,information
+искать,to search
+использовать,to use, utilize, make use of
+история,history, story, event
+исчезнуть,to disappear
+к,to, for, by
+кабинет,study, room, office suite
+каждый,each, every
+казаться,to seem, appear
+как,how, what, as, like
+какой,what, which, how
 камень,stone
-камин,fireplace
-канал,channel
-канат,rope-cable
-кандидат,candidate
-каникулы,holidays
-канон,canon
-капкан,trap
-капля,drop
-капот,hood
-каприз,whim
-капуста,cabbage
+капитан,captain, master
 карман,pocket
-карта,map-card
-картина,picture
-картон,cardboard
-картофель,potato
-касса,cashier-till
-кастрюля,pot
-катастрофа,catastrophe
-катер,boat
-каток,rink
-кафедра,chair-department
-кашель,cough
-каюта,cabin
-квадрат,square
-квартира,apartment
-квас,kvass
-кедр,cedar
-кекс,cupcake
-кенгуру,kangaroo
-кепка,cap
-керамика,ceramics
-керосин,kerosene
-кино,cinema
-кирпич,brick
-кислый,sour
-кислород,oxygen
-кит,whale
-клён,maple
-книга,book
-лаборатория,laboratory
-лава,lava
-лавка,bench-shop
+карта,map
+картина,picture, painting
+качество,quality
+квартира,flat, apartment
+кивнуть,to nod
+километр,kilometre, kilometer
+класс,class
+книга,a book
+ко,to, towards, by
+когда,when, while, as
+кожа,skin
+кой,which (old-fashioned)
+колено,knee
+количество,quantity
+колоть,to prick
+команда,team; command
+командир,commander, commanding officer
+комната,a room
+компания,company
+конец,end, distance
+конечный,final, last
+кончиться,to end
+корабль,ship
+коридор,corridor, passage
+король,king
+короткий,short
+который,which, who, that
+край,border, edge; land, country
+красивый,beautiful
+красный,red
+кресло,armchair
+крикнуть,to cry, shout
+кричать,to cry, shout
+кровать,bed
+кровь,blood
+кроме,except, besides
+круг,circle
+крупный,large, big, prominent
+крыша,roof
+кстати,to the point, at the same time
+кто,who, that, some
+куда,where, what for, much
+кулак,fist
+купить,to buy, purchase
+куст,bush
+кухня,kitchen
 лагерь,camp
+ладно,in harmony, well, all right
 ладонь,palm
-ладья,rook-boat
-лазер,laser
-лай,barking
-лак,varnish
-лампа,lamp
-ландыш,lily-of-the-valley
-лапа,paw
-ларёк,stall
-ласка,caress-weasel
-ласточка,swallow
-лауреат,laureate
-лебедь,swan
-лев,lion
-легенда,legend
-лёгкий,light-easy
-лёд,ice
-лежать,to-lie
-лекция,lecture
-лента,ribbon-tape
-лепесток,petal
+левый,left
+легко,easily, lightly
+лежать,to lie, be situated
+лейтенант,lieutenant
 лес,forest
 лестница,staircase
+лететь,to fly
 лето,summer
-лечить,to-treat
-леший,wood-sprite
-лжец,liar
-лидер,leader
-лилия,lily
-лимон,lemon
-линия,line
-липа,linden
-лиса,fox
-лист,leaf-sheet
+ли,whether, if
+либо,or
+лист,leaf, sheet
 литература,literature
-лить,to-pour
-лифт,elevator
-лихорадка,fever
-лицо,face
-личность,personality
-лишний,extra
+лицо,face; person
+личный,personal
+лишь,only, as soon as
 лоб,forehead
-ловкий,dexterous
-логика,logic
-ложка,spoon
-локоть,elbow
-магазин,shop
-магия,magic
-магнит,magnet
-мазь,ointment
-май,May
-майка,t-shirt
-мак,poppy
-макет,model-layout
-малый,small
+лошадь,horse
+лучший,better, best
+любимый,dear, loved
+любить,to love
+любовь,love
+любой,any, every
+лёгкий,light, easy
+магазин,shop, store
+маленький,small, little
+мало,little, few
 мальчик,boy
-мама,mom
-манго,mango
-манера,manner
-манжет,cuff
-мания,mania
-мантия,mantle
-марка,stamp-brand
-март,March
-марш,march
-маска,mask
-масло,oil-butter
-масса,mass
-мастер,master
-масштаб,scale
-математика,mathematics
-матч,match
+мама,mummy, mum
 мать,mother
-машина,car-machine
-маяк,lighthouse
-мгла,haze
-мебель,furniture
-медаль,medal
-медведь,bear
-мёд,honey
-медицина,medicine
-мел,chalk
-мель,shallows
-мемуары,memoirs
-меньше,less
-меню,menu
-мера,measure
-метла,broom
-метод,method
-метр,meter
-мечта,dream
-мешок,sack
-миг,instant
-милиция,police
-милый,dear-cute
-минута,minute
-набережная,embankment
-наблюдение,observation
-набор,set
-навес,canopy
-награда,reward
+машина,car, machine, engine
+медленно,slowly
+между,between, among
+мелкий,shallow, small
+менее,less
+мера,measure, step
+местный,local
+место,place; seat
+месяц,month
+метр,meter, metre
+мешать,to interfere, prevent; mix
+мешок,bag, sack
+милый,nice, sweet, dear
+мимо,past, by
+минута,minute, moment
+мир,world, peace
+мнение,opinion
+многие,many
+много,many, much
+можно,one can
+мозг,brain
+мой,my, mine
+мокрый,wet
+мол,he says, they say, etc.
+молодая,bride ; young
+молодой,young ; bridegroom
+молча,silently, without a word
+молчать,to keep silence
+момент,moment, instant
+море,sea
+Москва,Moscow
+московский,Moscow
+мочь,be able
+муж,husband
+мужик,muzhik, man
+мужчина,man, male
+музыка,music
+мы,we
+мысль,thought, idea
+на,on, it, at, to
+наверно,probably
+наверное,probably, most likely
+над,above, over
 надежда,hope
-надзор,supervision
-назад,back
-название,name-title
-наивный,naive
-наказ,mandate
-наклон,slope
-наконец,finally
-налог,tax
-намерение,intention
-напасть,misfortune
-напор,pressure
-направление,direction
-например,for-example
-народ,people
-насос,pump
-наследие,heritage
-наст,crust
-настой,infusion
-настрой,mood
-наступление,advance
-насчёт,regarding
-натиск,onslaught
+надеяться,to hope
+надо,over, above, ought to
+назад,back, backwards
+название,name, title
+назвать,to call, name
+называть,to call, name
+называться,to call oneself
+найти,to find, discover, consider
+наконец,at last, finally
+написать,to write
+например,for example, for instance
+народ,people, nation
+настоящий,present;real, true
 наука,science
-нация,nation
-начало,beginning
-начальник,boss
+находиться,to be found, turn up
+начало,beginning, origin, source
+начальник,chief, head, superior
+начать,to begin
+начаться,to begin
+начинать,to begin
+наш,our, ours
+не,not
 небо,sky
-невеста,bride
+небольшой,small, not great
+невозможно,impossible
+недавно,recently, lately
 неделя,week
-недуг,ailment
-нельзя,forbidden
+неизвестный,unknown
+некоторый,some
+нельзя,it is impossible, can't
 немец,German
-ненависть,hatred
-неон,neon
-нерв,nerve
-несчастье,misfortune
-нет,no
-нефть,oil
-нива,field
-низ,bottom
-никель,nickel
-нитка,thread
-ниша,niche
-новость,news
-обед,lunch
-обещание,promise
-обида,offense
-область,region
-облако,cloud
-оборона,defense
-образ,image
-обувь,footwear
-обучение,training
-объём,volume
-обычай,custom
-овраг,ravine
+немецкий,German
+немного,a little
+необходимый,necessary
+неожиданно,unexpectedly, suddenly
+несколько,several, some
+нести,to carry
+нет,no, not, but
+неужели,really, surely
+нечего,there is nothing, there is no need
+ни,not a, not, neither… nor
+никак,in now way, by no means
+никакой,no, none
+никогда,never
+никто,nobody
+ничто,nothing
+но,but
+новый,new; modern
+нога,foot, leg
+номер,number, size, room, issue
+нос,nose
+носить,to wear
+ночной,night
+ночь,night
+нравиться,to please, like
+ну,now, right, well, come on
+нужный,necessary
+о,of, about, against
+об,about, of
+оба,both
+обещать,to promise
+область,oblast, province; field
+обнаружить,to discover, find out
+образ,shape, form, image
+обратно,back, backwards
+общество,society
+общий,general, common
+объяснить,to explain
+обычно,usually
+обычный,usual, ordinary
+обязательно,without fail, be sure
 огонь,fire
-огурец,cucumber
-одежда,clothing
-одеяло,blanket
-ожог,burn
-озеро,lake
-окно,window
-около,near
-окоп,trench
-олень,deer
-олива,olive
-омлет,omelet
+огромный,huge, enormous
+один,one, some, alone
+однажды,once, one day
+однако,however, though
+ожидать,to expect
+оказаться,find oneself, turn out
+оказываться,to turn out, find oneself
+окно,window, windowsill
+около,by, near
 он,he
-опасность,danger
-опера,opera
-опора,support
-орден,order-medal
-орех,nut
-орёл,eagle
+она,she
+они,they
+оно,it
+опыт,experience
+опять,again
+орган,organ, body
 оружие,weapon
-оса,wasp
-осень,autumn
-осмотр,inspection
-основа,basis
+основной,main
+особенно,especially, particularly
+особый,special
+оставаться,to remain, stay
+оставить,to leave, abandon
+остальной,remaining, the rest of
+остановиться,to stop
+остаться,to remain, stay
+осторожно,carefully, cautiously
 остров,island
-отвага,courage
-ответ,answer
+острый,sharp; spicy
+от,from, of, for
+ответ,answer, reply
+ответить,to answer, reply
+отвечать,to answer, reply
+отдать,to return, give back
 отец,father
-отряд,detachment
-отпуск,leave-vacation
-офис,office
-охота,hunting-wish
-очерк,essay
-очки,glasses
-ошибка,mistake
-ожерелье,necklace
-океан,ocean
-оратор,orator
-павильон,pavilion
-павлин,peacock
-паёк,ration
-палата,chamber-ward
-палец,finger
-палитра,palette
-палка,stick
-палуба,deck
+открытый,open
+открыть,to open
+откуда,where… from
+относиться,to treat, regard, relate
+отношение,relationship, attitude
+отсюда,from here
+офицер,officer
+очень,very
+очередь,line, queue, turn
+палец,finger, toe
 память,memory
-панель,panel
-паника,panic
-пансионат,boarding-house
-папа,dad
-пар,steam
-парад,parade
-парик,wig
-парк,park
-пароль,password
-пароход,steamship
-парта,desk
-парус,sail
-пасха,Easter
-патент,patent
-пауза,pause
-паук,spider
-пафос,pathos
-пах,groin
-пацан,lad
-пачка,pack
-пашня,field
-певец,singer
-пейзаж,landscape
-пекарь,baker
-пенал,pencil-case
-пение,singing
-пепел,ash
-перец,pepper
-перо,feather-pen
-песня,song
-песок,sand
-печать,seal-press
-печень,liver
-пещера,cave
-пианино,piano
-пиво,beer
-пижама,pajamas
-пилот,pilot
-пирог,pie
+папа,dad, daddy
+пара,pair, couple
+парень,boy, fellow, guy
+партия,party
+пахнуть,to smell
+первый,first, front, former
+перед,before, in front of
+перестать,to stop, cease
+петь,to sing
+писатель,writer
+писать,to write
 письмо,letter
-пища,food
-работа,work
-раб,slave
-радар,radar
-радио,radio
-радость,joy
-раз,time-once
-разум,mind
-рай,paradise
-рак,cancer-crayfish
-ракета,rocket
-рама,frame
-рана,wound
-ранг,rank
-рапорт,report
-рассвет,dawn
+пить,to drink
+плакать,to cry
+план,plan
+плечо,shoulder, upper arm
+плохо,badly
+площадь,square, area
+по,on, along, by
+поверить,to believe
+повернуться,to turn
+повод,occasion, reason; bridle
+повторить,to repeat
+погибнуть,to perish, be killed
+под,under, for, towards, to
+поднять,to lift, raise
+подняться,to rise, climb
+подобный,similar, like
+подойти,to approach, come up
+подумать,to think
+подходить,to come up, approach;to fit
+поезд,train
+поехать,to depart, set off
+пожаловать,to grant, bestow
+пожалуйста,please
+позволить,to allow, permit
+позвонить,to call, to telephone
+поздний,late
+пойти,to go
+пока,for the present
+показать,to show, display
+показаться,to appear, come in sight
+показывать,to show, display
+пол,floor; sex
+поле,field
+политический,political
+полковник,colonel
+полный,full, complete
+половина,half
+положение,position, posture, condition, state
+положить,to lay down, put down, place
+получать,to receive, get
+получаться,to come out
+получить,to receive, get, obtain
+получиться,to come, arrive, turn out
+помнить,to remember
+помогать,to help, assist
+помочь,to help
+помощь,help
+понимать,to understand
+понятно,clearly, plainly
+понять,to understand; realize
+попасть,to hit; to find oneself
+попробовать,to try, test
+попросить,to ask
+пора,time; pore
+порядок,order
+поскольку,so far as, since
+послать,to send, dispatch
+после,after, afterwards
+последний,last, the latest, new
+посмотреть,to take a look, watch, inspect
+поставить,to put, place, set
+потерять,to lose
+потом,afterwards, then
+потому,that's why
+похожий,similar, alike
+почему,why
+почти,almost
+почувствовать,to feel
+поэт,poet
+поэтому,therefore
+появиться,to appear, show up
+появляться,to appear, show up
+правда,truth
+правило,rule
+правильно,correctly, properly
+правительство,government
+право,right
+правый,right
+предложить,to offer, propose, suggest
+представить,to presetn, produce, introduce
+представлять,to present, introduce, imagine
+прежде,before
+прежний,former
+президент,president; director
+прекрасный,beautiful, fine
+при,attached to, in the presence of, by, about
+привести,to bring
+привыкнуть,to get used to, to grow accustomed to
+придтись,to fit, fall; have to
+приехать,to arrive, come
+прийти,to come, arrive
+прийтись,to fit, fall; have to
+приказ,order
+пример,example
+принести,to bring
+принимать,to take, admit, accept
+принять,to take, admit, accept
+природа,nature
+прислать,to send
+приходить,to come, arrive
+приходиться,to fit, fall; have to
+причем,moreover, and what's more
+причина,cause, reason, motive
+пришлый,alien, strange
+про,about, for
+проблема,problem, issue
+провести,to accompany, set off; conduct; spend
+проводить,to lead, escort; accompany
+продолжать,to continue
+произнести,to pronounce, say, utter
+произойти,to happen, occur, take place
+происходить,to happen, occur, take place
+пройти,to pass, go by, be over
+просить,to ask
+простить,to forgive
+просто,simply
+простой,simple, easy, plain
+против,against, opposite, contrary to
+протянуть,to stretch, extend
+профессор,professor
+проходить,to pass, go;study
+процесс,process
+прочее,et cetera, other
+прошлый,past
+прямо,straight, frankly
+прямой,straight
+птица,bird
+пустой,empty, hollow; idle
+пусть,let's, though
+путь,way, track, path
+пытаться,to try
+пять,five
+работа,work, job
+работать,to work
+рабочий,working
+равно,alike, in like manner
+ради,for the sake of
+радость,gladness, joy
+раз,time, once, since
+разве,really?, perhaps
+развитие,development
+разговаривать,to talk, speak
+разговор,talk, conversation
+разный,different
+район,area, region
+ранний,early
 рассказ,story
-раствор,solution
-рация,walkie-talkie
-рвение,zeal
-реакция,reaction
-ребро,rib
-ребёнок,child
-рев,roar
+рассказать,to tell, narrate
+рассказывать,to tell, narrate
+ребята,guys, children
+ребёнок,child, kid, infant
 революция,revolution
-регион,region
-редко,rarely
-режим,regime-mode
-резать,to-cut
-рейс,flight-trip
+результат,result, outcome
 река,river
-реклама,advertisement
-рекорд,record
-рельс,rail
-ремень,belt
-ремонт,repair
-репа,turnip
-ресурс,resource
-реферат,abstract-paper
-реформа,reform
 речь,speech
-решение,decision
-решётка,grating
-рис,rice
-риск,risk
-ритм,rhythm
-риф,reef
-робот,robot
-род,kind-clan
-родина,homeland
-роза,rose
-сад,garden
-салат,salad
-салют,salute
-сам,self
-самолёт,airplane
-сани,sled
-сапог,boot
-сарай,shed
-сахар,sugar
-свеча,candle
-свет,light
-свинец,lead
+решение,decision, conclusion
+решить,to decide, solve
+род,family, clan, generation
+родитель,parent
+родной,own, native, dear
+роль,role
+роман,novel, romance
+российский,Russian
+Россия,Russia
+рост,growth, increase; height
+рот,mouth
+рота,company (military)
+рубль,ruble
+рука,hand, arm
+русский,Russian
+рыба,fish
+ряд,row, line
+с,with, and, from, of
+сад,garden, yard
+садиться,to sit down
+сам,myself, yourself
+самолет,aircraft, aeroplane
+самый,most, the very, the same
+сапог,(high) boot
+свет,light;world
 свобода,freedom
-свод,vault
-связь,connection
-сгиб,bend
-сдача,change-delivery
-сеанс,session
-север,north
-седло,saddle
-сезон,season
-секрет,secret
-сектор,sector
-село,village
+свободный,free
+свой,my, our, your
+своё,one's own, my, our
+связанный,related, connected, tied-up
+связь,tie, bond; connection, relation
+сделать,to do, make, finish
+себя,myself, himself, herself
+сегодня,today
+сей,this
+сейчас,now, presently, soon
+секунда,a second
+семь,seven
 семья,family
-сентябрь,September
 сердце,heart
-серия,series
-серый,grey
+серый,grey; dull
+серьезный,serious
 сестра,sister
-сеть,net
-сжатие,compression
-сигнал,signal
-сила,strength
-символ,symbol
-синий,blue
-сироп,syrup
+сесть,to sit
+сидеть,to sit
+сила,strength, force
+сильно,strongly
+сильный,strong, powerful
+синий,dark blue
 система,system
-ситец,calico
 ситуация,situation
-сиять,to-shine
-скала,rock
-скамья,bench
-скарб,belongings
-скелет,skeleton
-скидка,discount
-склад,warehouse
-скорость,speed
-скрипка,violin
-слава,glory
-табак,tobacco
-таблетка,pill
-табло,display-board
-таз,basin
-тайга,taiga
-тайна,secret
-так,so
-такси,taxi
-талант,talent
-талия,waist
-талисман,talisman
-таможня,customs
-танец,dance
-танк,tank
-тапки,slippers
-тара,packaging
-тарелка,plate
-тариф,tariff
-творог,cottage-cheese
-творчество,creativity
-театр,theater
-тезис,thesis
-текст,text
-телевизор,TV
+сказать,to say, to speak
+сквозь,through
+сколько,how much, how many
+скоро,quickly, fast, soon
+скорый,quick, fast
+слабый,weak
+слава,glory, fame
+слать,to send
+слегка,slightly
+след,track, footprint
+следовать,to follow, come next
+следующий,next, following
+слеза,tear
+слишком,too, too much
+словно,as if, like
+слово,word
+служба,service, work
+служить,to serve
+случай,case, occasion, incident
+случиться,to happen
+слушать,to listen, hear
+слышать,to hear
+смерть,death
+смеяться,to laugh
+смотреть,to look, watch
+смочь,to be able
+смысл,sense, meaning, purpose
+сначала,at first, from the beginning
+снег,snow
+снова,again
+снять,to take away, take off;photograph
+со,with
+собака,dog
+собираться,to gather together, assemble; intend
+собраться,to gather, collect
+собственный,one's own
+событие,event
+совершенно,absolutely, quite
+совет,advice
+советский,Soviet
+современный,contemporary, modern, up-to-date
+совсем,quite, entirely, totally
+согласиться,to agree, consent
+создать,to create, establish
+сознание,consciousness
+солдат,soldier
+солнце,sun
+сон,dream
+сообщить,to report, let know
+сорок,forty
+сосед,neighbour
+состояние,state, condition; fortune
+союз,union, alliance; conjunction
+спасибо,gratitude, thanks
+спать,to sleep
+спина,back
+спокойно,quietly
+способный,capable (of)
+спрашивать,to ask, inquire
+спросить,to ask
+сразу,at once, right away, just
+среди,among
+средний,average, middle
+средство,means, remedy
+ставить,to put, place, set
+стакан,glass
+становиться,to stand; to become
+станция,station
+стараться,to try, endeavour
+старик,old man
+старший,elder, senior
+старый,old
+стать,to become, begin, come
+статья,article
+стекло,glass
+стена,wall
+сто,hundred
+стол,table, desk; board
+столь,so
+столько,so much, so many
+сторона,side, party
+стоять,to stand, be, stand up
+страна,country
+странно,strangely
+странный,strange
+страх,fear
+страшно,terribly, awfully
+страшный,terrible, frightful
+стрелять,to shoot
+стул,chair
+суд,court, law-court
+судить,to judge, try
+судьба,fate, fortune, destiny
+сухой,dry
+существовать,to exist, to be
+счастливый,happy
+счастье,happiness, luck
+счет,bill, account
+считать,to count, consider
+сын,son
+сюда,here
+так,so, thus, then
+также,also, as well, too
+таки,after all
+такой,such, so, some
+там,there, then
+твой,your, yours (informal)
 телефон,telephone
 тело,body
-тема,theme
 темнота,darkness
-тенор,tenor
+темный,dark
 тень,shadow
-теория,theory
-тепло,warmth
-терапевт,physician
-термин,term
-террор,terror
-тест,test
-тетрадь,notebook
-тигр,tiger
-тираж,circulation
-тишина,silence
-ткань,fabric
-товар,goods
-ток,current
+теперь,now, nowadays
+теплый,warm
+течение,current
+тип,type, model
+тихий,quiet, low, scelent
+тихо,quietly, softly, slowly
+тишина,silence, stillness
+товарищ,comrade, friend
+тогда,then
+тоже,also, as well, too
 толпа,crowd
-том,volume
-тон,tone
-топор,axe
-торг,trade
-точка,point-dot
+толстый,thick, heavy, fat
+только,only, merely, but
+тонкий,thin
+тот,that
+точка,dot, point
+точно,exactly
 трава,grass
-убеждение,conviction
-убор,attire
-уборка,cleaning
-убыток,loss
-уважение,respect
-уговор,agreement
-угол,corner
-уголь,coal
-удача,luck
-удар,blow
-удочка,fishing-rod
-ужин,dinner
-узор,pattern
-указ,decree
+требовать,to demand
+третий,third
+три,three
+тридцать,thirty
+трубка,tube, roll, pipe
+труд,labour, work
+трудно,with difficulty
+туда,there
+тут,here, now, then
+ты,you, thou
+тысяча,a thousand
+тяжёлый,heavy
+у,by, with, of
+убить,to kill
+уверенный,confident, sure
+увидеть,to see
+угол,corner, angle
+удар,blow, stroke
+удаться,turn out well, succeed, manage
+удивиться,to wonder, be surprised
+удовольствие,pleasure
+уехать,to leave, depart
+уж,really, already
+уже,already, by now
+узнать,to know, learn, recognize
+уйти,to leave, go away
 улица,street
+улыбаться,to smile
 улыбка,smile
-ум,mind
-умение,skill
-униформа,uniform
-университет,university
-упадок,decline
-упор,support
-управление,management
-упражнение,exercise
-урожай,harvest
-урок,lesson
+улыбнуться,to smile
+ум,mind, brains, intellect
+умереть,to die
+уметь,to be able, know, can
+упасть,to fall
+управление,operation, control
 уровень,level
-усилие,effort
-условие,condition
-услуга,service
-устав,charter
+условие,condition, term
+услышать,to hear
+успеть,to be in time, be successful
 утро,morning
-утюг,iron
-уход,care-departure
-участок,plot
-учебник,textbook
-ученик,pupil
-учёба,studies
-учёный,scholar
-ущелье,gorge
-уют,comfort
-узник,prisoner
-улитка,snail
-улей,hive
-уныние,despondency
-упрёк,reproach
-урна,urn
-успех,success
-утка,duck
 ухо,ear
-фабрика,factory
-фазан,pheasant
-факел,torch
+уходить,to leave, go away
+учитель,teacher, instructor
+учиться,to study, learn
 факт,fact
-факультет,faculty
-фальшь,falseness
 фамилия,surname
-фан,fan
-фантазия,fantasy
-фара,headlight
-фарфор,porcelain
-фасад,facade
-фасоль,beans
-фашист,fascist
-февраль,February
-федерация,federation
-фейерверк,fireworks
-фельдшер,paramedic
-фен,hairdryer
-феномен,phenomenon
-ферма,farm
-фестиваль,festival
-фигура,figure
-физика,physics
-фикус,ficus
-филин,eagle-owl
-фильм,film
-финал,finale
-финансы,finance
-финик,date
-фирма,firm
-фитиль,wick
-флаг,flag
-флакон,vial
-фланг,flank
-флейта,flute
-флот,fleet
-фокус,trick-focus
-фольга,foil
-фон,background
-фонтан,fountain
-форма,form
-форум,forum
-фосфор,phosphorus
-фото,photo
-фраза,phrase
-фрак,tailcoat
-футбол,football
-фуражка,cap
-фрукт,fruit
-халат,robe
-халва,halva
-характер,character
-хвост,tail
-хвоя,needles
-хижина,hut
-химия,chemistry
-хирург,surgeon
-хитрый,cunning
+форма,form, shape, uniform
+фронт,front
+характер,character, disposition, temper
+хватать,to snatch, seize; be sufficient
+хватить,to snatch, seize, suffice
 хлеб,bread
-хлев,barn
-хлопок,cotton
-хобби,hobby
 ход,move
-хозяин,owner
-холод,cold
-холм,hill
-хор,choir
-хорёк,ferret
-хотеть,to-want
-храм,temple
-храп,snoring
-хребет,ridge
-хрен,horseradish
-хрип,wheeze
-христианин,Christian
-хроника,chronicle
-хрусталь,crystal
-хрюшка,piggy
-худой,thin
-хулиган,hooligan
-хурма,persimmon
-хозяйство,household
-халтура,hack-work
-хам,boor
-хан,khan
-хаос,chaos
-хартия,charter
-хвалить,to-praise
-хватка,grip
-хворать,to-ail
-химера,chimera
-хитрость,cunning
-хлебороб,grain-grower
-хлопоты,troubles
-хмурый,gloomy
-ходьба,walking
-храбрый,brave
-хрупкий,fragile
-худеть,to-lose-weight
-цапля,heron
-царь,tsar
-цвет,color
+ходить,to go, walk
+хозяин,master, boss, host
+холодный,cold, cool
+хороший,good, nice
+хорошо,well
+хотеть,to want, like
+хотеться,want, like
+хоть,even, if you want, though
+хотя,although
+художник,painter, artist
+худой,thin, skinny
+цвет,colour, color
 цветок,flower
-цель,goal
+целый,intact, whole, entire
+цель,goal, object, target
 цена,price
 центр,center
-цепь,chain
-церковь,church
-цирк,circus
-цифра,digit
-цоколь,base
-цемент,cement
-ценз,qualification
-церемония,ceremony
-циклон,cyclone
-цилиндр,cylinder
-цинк,zinc
-цитата,quote
-цитрус,citrus
-цокот,clatter
-цукат,candied-fruit
-цунами,tsunami
-цыган,gypsy
-цыплёнок,chick
-цедра,zest
-целина,virgin-soil
-целлофан,cellophane
-целостность,integrity
-цельность,wholeness
-цементный,cement
-центнер,centner
-цепочка,chain
-церковный,church
-цивилизация,civilization
-цикорий,chicory
-цинизм,cynicism
-циновка,mat
-циркуль,compass
-цистерна,tank
-цитадель,citadel
-цитология,cytology
-цифровой,digital
-цукини,zucchini
-цыганка,gypsy
-ценность,value
-цент,cent
-цех,workshop
-цикл,cycle
-цок,clink
 чай,tea
-чайник,kettle
-час,hour
-частица,particle
-часть,part
-часы,clock
-чашка,cup
-человек,person
-чемодан,suitcase
-чемпион,champion
-череп,skull
-черёмуха,bird-cherry
-чернила,ink
-чёрный,black
-чертёж,drawing
-чеснок,garlic
-честь,honor
-четверг,Thursday
-четверть,quarter
+час,hour, time
+часто,often
+частый,frequent
+часть,part, share, department
+чей,whose
+человек,man, person
+человеческий,human
+чем,than; instead of
+через,through, across
+черный,black
+черта,line, boundary; trait
+четыре,four
 число,number
-чистый,clean
-читатель,reader
-чтение,reading
-чтобы,in-order-that
-чуб,forelock
-чугун,cast-iron
-чудеса,wonders
-чужой,stranger
-чулок,stocking
-чучело,scarecrow
-чушь,nonsense
-чадо,offspring
-чайка,seagull
-чалма,turban
-чан,vat
-чарка,cup
-чародей,sorcerer
-чахотка,consumption
-чаща,thicket
-чванство,arrogance
-чебурек,cheburek
-чекан,chaser
-чек,check
-челнок,shuttle
-чемпионат,championship
-чепец,cap
-червь,worm
-через,through
-черта,line
-чехол,cover
+чистый,clean, pure
+читать,to read
+член,member, limb
+что,what, that, why
+чтоб,that, in order that
+чтобы,that, in order that
+чувство,feeling
+чувствовать,to feel
+чужой,somebody else's;strange, foreign
+чуть,hardly, slightly
+чёрный,black
 шаг,step
-шайба,puck
-шалаш,hut
-шаль,shawl
-шампиньон,champignon
-шанс,chance
-шапка,hat
-шар,ball
-шарф,scarf
-шахта,mine
-шахматы,chess
-шашлык,shashlik
-швабра,mop
-швед,Swede
-швейцар,doorman
-швея,seamstress
-швы,seams
-шедевр,masterpiece
-шёлк,silk
-шелест,rustle
-шёпот,whisper
-шерсть,wool
-шест,pole
-шеф,boss-chef
+шесть,six
 шея,neck
-шило,awl
-шина,tire
-шинель,overcoat
-шип,thorn
-ширь,expanse
-шкаф,cupboard
-шкатулка,box
+широкий,wide
 школа,school
-шкура,skin-hide
-шланг,hose
-шлем,helmet
-шлюпка,boat
-шляпа,hat
-шов,seam
-шок,shock
-шоколад,chocolate
-шорты,shorts
-шоссе,highway
-шофёр,driver
-шпага,sword
-шприц,syringe
-штаб,staff
-штора,curtain
-штука,thing-piece
-шум,noise
-яблоко,apple
-яблоня,apple-tree
-явление,phenomenon
-явка,appearance
-явный,evident
-ягода,berry
-ягуар,jaguar
-яд,poison
-ядерный,nuclear
-ядовитый,poisonous
-ядро,kernel-core
-язык,tongue-language
-язычник,pagan
-яйцо,egg
-як,yak
-якорь,anchor
-якут,Yakut
-яма,pit
-ямка,dimple
-ямщик,coachman
-январь,January
-японец,Japanese
-яр,ravine
-ярд,yard
-яркий,bright
-ярмарка,fair
-ярость,fury
-ярус,tier
-ясень,ash-tree
-ясный,clear
-ясли,nursery
-ясность,clarity
-ястреб,hawk
-яхта,yacht
-ячмень,barley
-ячейка,cell
-ящер,pangolin
-ящерица,lizard
-ящик,box
-яблочный,apple
-явственный,distinct
-ягодный,berry
-ядерщик,nuclear-specialist
-язва,ulcer
-язвительный,caustic
-яичница,fried-eggs
-якорный,anchor
-яловой,barren
-ямщицкий,coachman
-ястребок,young-hawk`;
+щека,cheek
+этаж,floor, storey
+это,that, this, it
+этот,this
+я,I
+являться,to appear
+язык,tongue, language
+ясно,clear, clearly
+ящик,box, case`;
 
   return raw
     .split("\n")
