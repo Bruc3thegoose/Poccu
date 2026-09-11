@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>RU ⇄ EN Word Cycler</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>🎲 RU ⇄ EN Word Cycler</h1>
+    <p class="tagline">Random-subset word roulette — pick 10 Russian words, then roll forever.</p>
+  </header>
+
+  <section class="controls">
+    <button id="btn-new" class="btn primary">🎯 New Selection</button>
+    <button id="btn-pause" class="btn">⏸ Pause</button>
+
+    <label class="control">
+      <span>Subset</span>
+      <select id="size">
+        <option value="5">5</option>
+        <option value="10" selected>10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+      </select>
+    </label>
+
+    <label class="control">
+      <span>Letter</span>
+      <select id="letter">
+        <option value="random" selected>Random</option>
+      </select>
+    </label>
+
+    <label class="control">
+      <span>Direction</span>
+      <select id="direction">
+        <option value="ru2en">RU → EN</option>
+        <option value="en2ru">EN → RU</option>
+      </select>
+    </label>
+
+    <label class="control">
+      <span>Speed <em id="speed-label">2.5 s</em></span>
+      <input id="speed" type="range" min="800" max="6000" step="100" value="2500" />
+    </label>
+
+    <label class="control check">
+      <input id="reveal" type="checkbox" checked />
+      <span>Show translation</span>
+    </label>
+
+    <label class="control check">
+      <input id="hide-list" type="checkbox" checked />
+      <span>Hide selected words</span>
+    </label>
+
+    <label class="control check">
+      <input id="speak" type="checkbox" checked />
+      <span>🔊 Speak Russian</span>
+    </label>
+  </section>
+
+  <main>
+    <section class="panel">
+      <h2>Selected words<span id="status"></span></h2>
+      <div id="subset-grid" class="grid"></div>
+    </section>
+
+    <section class="panel cycle">
+      <h2>Roller</h2>
+      <div id="cycle-card" class="cycle-card">
+        <span id="cycle-num" class="cycle-num">#1</span>
+        <span id="cycle-word" class="cycle-word">—</span>
+        <span id="cycle-en" class="cycle-en">—</span>
+      </div>
+      <p class="roll-count">Rolls: <span id="roll-count">0</span></p>
+    </section>
+  </main>
+
+  <script src="words.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
