@@ -11,13 +11,16 @@
     revealEn: true,
     hideList: true,
     speak: true,
+    speakEn: false,
     direction: "ru2en",
     spaced: false,
     cooldowns: {},
     rolls: 0,
     cycling: false,
-    timerId: null,
   };
+
+  let nextRollTimer = null;
+  let cycleGeneration = 0;
 
   const gridEl = $("#subset-grid");
   const cycleCard = $("#cycle-card");
@@ -35,6 +38,7 @@
   const revealEl = $("#reveal");
   const hideListEl = $("#hide-list");
   const speakEl = $("#speak");
+  const speakEnEl = $("#speak-en");
   const spacedEl = $("#spaced");
   const spacedLabel = $("#spaced-label");
 
@@ -53,16 +57,88 @@
     return "*".repeat(Math.max(len, 1));
   }
 
-  // Text-to-speech: speak the Russian word aloud.
-  function speakRu(text) {
-    if (!state.speak || !("speechSynthesis" in window)) return;
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "ru-RU";
-    const voices = window.speechSynthesis.getVoices();
-    const ru = voices.find((v) => v.lang && v.lang.toLowerCase().startsWith("ru"));
-    if (ru) u.voice = ru;
-    window.speechSynthesis.speak(u);
+  // Cached voice list (Chrome loads voices asynchronously).
+  let voiceCache = [];
+  function refreshVoices() {
+    if ("speechSynthesis" in window) voiceCache = window.speechSynthesis.getVoices();
+  }
+  if ("speechSynthesis" in window) {
+    refreshVoices();
+    window.speechSynthesis.addEventListener("voiceschanged", refreshVoices);
+  }
+
+  // Score a voice for "humanness" — prefer neural / natural voices.
+  function scoreVoice(v, langPrefix) {
+    if (!v.lang || !v.lang.toLowerCase().startsWith(langPrefix)) return -1;
+    const name = (v.name || "").toLowerCase();
+    let score = 0;
+    if (name.includes("natural")) score += 100;
+    if (name.includes("neural")) score += 90;
+    if (name.includes("premium") || name.includes("enhanced") || name.includes("online")) score += 60;
+    if (name.includes("google")) score += 50;
+    if (name.includes("microsoft")) score += 20;
+    if (v.localService) score += 5;
+    return score;
+  }
+
+  // Best available voice for a language.
+  function pickVoice(langPrefix) {
+    refreshVoices();
+    let best = null;
+    let bestScore = -1;
+    for (const v of voiceCache) {
+      const s = scoreVoice(v, langPrefix);
+      if (s > bestScore) { bestScore = s; best = v; }
+    }
+    return best;
+  }
+
+  // Map the speed dial (ms) to a speech rate.
+  // 800ms -> 1.5x (fast), 2500ms -> 1.0x (normal), 6000ms -> 0.6x (slow).
+  function speechRate() {
+    const ms = state.speedMs;
+    if (ms <= 2500) {
+      return 1.5 - (ms - 800) * 0.5 / 1700;
+    }
+    return 1.0 - (ms - 2500) * 0.4 / 3500;
+  }
+
+  function speedLabelText() {
+    return (state.speedMs / 1000).toFixed(1) + " s · " + speechRate().toFixed(2) + "×";
+  }
+
+  // Text-to-speech: speak Russian then English (whichever are enabled).
+  //
+  // When BOTH are enabled, we merge them into a SINGLE utterance using the
+  // Russian voice. The Russian voice reads the Cyrillic natively and the
+  // English word with a Russian accent — one continuous stream, so there is
+  // no voice-switch gap at all.
+  function speakWord(w) {
+    if (!("speechSynthesis" in window)) return;
+    const synth = window.speechSynthesis;
+    synth.cancel();
+
+    const rate = speechRate();
+
+    function make(text, lang, voice) {
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = lang;
+      u.rate = rate;
+      if (voice) u.voice = voice;
+      return u;
+    }
+
+    const both = state.speak && state.speakEn;
+
+    if (both) {
+      // Same Russian voice speaks both -> seamless, Russian-accented English.
+      const ruVoice = pickVoice("ru");
+      synth.speak(make(w.ru + ", " + w.en, "ru-RU", ruVoice));
+    } else if (state.speak) {
+      synth.speak(make(w.ru, "ru-RU", pickVoice("ru")));
+    } else if (state.speakEn) {
+      synth.speak(make(w.en, "en-US", pickVoice("en")));
+    }
   }
 
   // Pure random subset from the whole word bank (no letter grouping).
@@ -115,7 +191,7 @@
     cycleCard.classList.add("animate");
 
     cycleNum.textContent = "#" + (idx + 1);
-    speakRu(w.ru);
+    speakWord(w);
 
     if (state.direction === "ru2en") {
       cycleWord.textContent = w.ru;
@@ -130,18 +206,61 @@
     highlightTile(idx);
   }
 
+  // True while the speech engine is speaking or has queued utterances.
+  function isSpeaking() {
+    return (
+      "speechSynthesis" in window &&
+      (window.speechSynthesis.speaking || window.speechSynthesis.pending)
+    );
+  }
+
+  // Resolve once the speech engine has finished all queued speech.
+  function waitForSpeech() {
+    return new Promise((resolve) => {
+      if (!isSpeaking()) return resolve();
+      const safety = setTimeout(resolve, 15000);
+      const poll = () => {
+        if (!isSpeaking()) {
+          clearTimeout(safety);
+          resolve();
+        } else {
+          setTimeout(poll, 80);
+        }
+      };
+      poll();
+    });
+  }
+
+  // Schedule the next roll so speech always completes, but the gap never
+  // exceeds the chosen speed when speech is quick.
+  async function scheduleNext() {
+    const gen = cycleGeneration;
+    const started = Date.now();
+    await waitForSpeech();
+    if (!state.cycling || gen !== cycleGeneration) return;
+    const elapsed = Date.now() - started;
+    const delay = Math.max(0, state.speedMs - elapsed);
+    nextRollTimer = setTimeout(() => {
+      if (!state.cycling || gen !== cycleGeneration) return;
+      roll();
+      scheduleNext();
+    }, delay);
+  }
+
   function startCycling() {
     if (state.cycling || !state.subset.length) return;
     state.cycling = true;
     roll();
-    state.timerId = setInterval(roll, state.speedMs);
+    scheduleNext();
     updateControls();
   }
 
   function stopCycling() {
     state.cycling = false;
-    if (state.timerId) clearInterval(state.timerId);
-    state.timerId = null;
+    cycleGeneration += 1;
+    if (nextRollTimer) clearTimeout(nextRollTimer);
+    nextRollTimer = null;
+    if ("speechSynthesis" in window) window.speechSynthesis.cancel();
     updateControls();
   }
 
@@ -181,11 +300,10 @@
 
   speedEl.addEventListener("input", () => {
     state.speedMs = Number(speedEl.value);
-    speedLabel.textContent = (state.speedMs / 1000).toFixed(1) + " s";
-    if (state.cycling) {
-      stopCycling();
-      startCycling();
-    }
+    speedLabel.textContent = speedLabelText();
+    // No restart here: scheduleNext() re-reads state.speedMs after each word,
+    // so the new speed applies on the very next roll. Restarting on every
+    // input event spawned overlapping loops (the "broken" speed dial).
   });
 
   revealEl.addEventListener("change", () => {
@@ -203,12 +321,16 @@
     if (!state.speak && "speechSynthesis" in window) window.speechSynthesis.cancel();
   });
 
+  speakEnEl.addEventListener("change", () => {
+    state.speakEn = speakEnEl.checked;
+  });
+
   spacedEl.addEventListener("change", () => {
     state.spaced = spacedEl.checked;
     spacedLabel.classList.toggle("spaced-on", state.spaced);
   });
 
-  speedLabel.textContent = (state.speedMs / 1000).toFixed(1) + " s";
+  speedLabel.textContent = speedLabelText();
 
   newSelection();
 })();
