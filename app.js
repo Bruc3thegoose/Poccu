@@ -14,6 +14,8 @@
     speakEn: false,
     direction: "ru2en",
     spaced: false,
+    infinite: false,
+    infiniteRecent: [],
     cooldowns: {},
     rolls: 0,
     cycling: false,
@@ -41,6 +43,7 @@
   const speakEnEl = $("#speak-en");
   const spacedEl = $("#spaced");
   const spacedLabel = $("#spaced-label");
+  const infiniteEl = $("#infinite");
 
   function rng(max) {
     return Math.floor(Math.random() * max);
@@ -104,7 +107,7 @@
   }
 
   function speedLabelText() {
-    return (state.speedMs / 1000).toFixed(1) + " s · " + speechRate().toFixed(2) + "×";
+    return (state.speedMs / 1000).toFixed(1) + " s";
   }
 
   // Text-to-speech: speak Russian then English (whichever are enabled).
@@ -132,8 +135,13 @@
 
     if (both) {
       // Same Russian voice speaks both -> seamless, Russian-accented English.
+      // Order follows the direction: ru->en speaks Russian first; en->ru
+      // speaks English first (the "answer" comes second).
       const ruVoice = pickVoice("ru");
-      synth.speak(make(w.ru + ", " + w.en, "ru-RU", ruVoice));
+      const text = state.direction === "ru2en"
+        ? w.ru + ", " + w.en
+        : w.en + ", " + w.ru;
+      synth.speak(make(text, "ru-RU", ruVoice));
     } else if (state.speak) {
       synth.speak(make(w.ru, "ru-RU", pickVoice("ru")));
     } else if (state.speakEn) {
@@ -152,6 +160,11 @@
   }
 
   function renderGrid() {
+    if (state.infinite) {
+      gridEl.innerHTML =
+        `<p class="infinite-note">Infinite roller — all ${WORDS.length} words.<br>With Spaced repetition, a shown word can't repeat for 30 rolls.</p>`;
+      return;
+    }
     gridEl.innerHTML = "";
     state.subset.forEach((w, i) => {
       const tile = document.createElement("div");
@@ -171,26 +184,43 @@
   }
 
   function roll() {
-    if (!state.subset.length) return;
+    let w;
+    let idx = -1;
 
-    // Spaced repetition: only roll words that aren't on cooldown.
-    let candidates = state.subset;
-    if (state.spaced) {
-      const unlocked = state.subset.filter((w) => (state.cooldowns[w.ru] || 0) === 0);
-      if (unlocked.length) candidates = unlocked;
+    if (state.infinite) {
+      // Infinite roller: pick from the whole bank, forever.
+      let pool = WORDS;
+      if (state.spaced) {
+        const allowed = WORDS.filter((x) => state.infiniteRecent.indexOf(x.ru) === -1);
+        if (allowed.length) pool = allowed;
+      }
+      w = pool[rng(pool.length)];
+      if (state.spaced) {
+        state.infiniteRecent.push(w.ru);
+        if (state.infiniteRecent.length > 30) state.infiniteRecent.shift();
+      }
+    } else {
+      if (!state.subset.length) return;
+
+      // Spaced repetition: only roll words that aren't on cooldown.
+      let candidates = state.subset;
+      if (state.spaced) {
+        const unlocked = state.subset.filter((x) => (state.cooldowns[x.ru] || 0) === 0);
+        if (unlocked.length) candidates = unlocked;
+      }
+
+      w = candidates[rng(candidates.length)];
+      idx = state.subset.indexOf(w);
+
+      if (state.spaced) state.cooldowns[w.ru] = 3;
     }
-
-    const w = candidates[rng(candidates.length)];
-    const idx = state.subset.indexOf(w);
-
-    if (state.spaced) state.cooldowns[w.ru] = 3;
 
     // Restart the flip animation on every roll.
     cycleCard.classList.remove("animate");
     void cycleCard.offsetWidth;
     cycleCard.classList.add("animate");
 
-    cycleNum.textContent = "#" + (idx + 1);
+    cycleNum.textContent = state.infinite ? "∞" : "#" + (idx + 1);
     speakWord(w);
 
     if (state.direction === "ru2en") {
@@ -203,7 +233,7 @@
 
     state.rolls += 1;
     rollCountEl.textContent = state.rolls;
-    highlightTile(idx);
+    if (!state.infinite) highlightTile(idx);
   }
 
   // True while the speech engine is speaking or has queued utterances.
@@ -248,7 +278,7 @@
   }
 
   function startCycling() {
-    if (state.cycling || !state.subset.length) return;
+    if (state.cycling || (!state.subset.length && !state.infinite)) return;
     state.cycling = true;
     roll();
     scheduleNext();
@@ -265,6 +295,18 @@
   }
 
   function newSelection() {
+    if (state.infinite) {
+      // Fresh start in infinite mode: clear the recent-word window.
+      state.infiniteRecent = [];
+      state.rolls = 0;
+      rollCountEl.textContent = "0";
+      renderGrid();
+      stopCycling();
+      startCycling();
+      statusEl.textContent = "— infinite";
+      return;
+    }
+
     // Spaced repetition: each new selection releases locked words by one step.
     if (state.spaced) {
       for (const k in state.cooldowns) {
@@ -328,6 +370,12 @@
   spacedEl.addEventListener("change", () => {
     state.spaced = spacedEl.checked;
     spacedLabel.classList.toggle("spaced-on", state.spaced);
+  });
+
+  infiniteEl.addEventListener("change", () => {
+    state.infinite = infiniteEl.checked;
+    btnNew.textContent = state.infinite ? "🔁 Reset" : "🎯 New Selection";
+    newSelection();
   });
 
   speedLabel.textContent = speedLabelText();
