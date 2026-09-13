@@ -55,6 +55,7 @@ body {
   color: #0b0e1c; font-weight: 700; border: none;
 }
 .btn.is-paused { background: var(--good); color: #06281c; font-weight: 700; }
+.btn.new-bottom { margin-top: 18px; width: 100%; min-height: 54px; font-size: 1.05rem; }
 
 .control {
   display: flex; flex-direction: column; gap: 4px;

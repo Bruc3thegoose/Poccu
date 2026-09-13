@@ -13,7 +13,6 @@
   </header>
 
   <section class="controls">
-    <button id="btn-new" class="btn primary">🎯 New Selection</button>
     <button id="btn-pause" class="btn">⏸ Pause</button>
 
     <label class="control">
@@ -55,6 +54,11 @@
       <span>🔊 Speak Russian</span>
     </label>
 
+    <label class="control check">
+      <input id="speak-en" type="checkbox" />
+      <span>🔊 Speak English</span>
+    </label>
+
     <label class="control check" id="spaced-label">
       <input id="spaced" type="checkbox" />
       <span>Spaced repetition</span>
@@ -75,6 +79,7 @@
         <span id="cycle-en" class="cycle-en">—</span>
       </div>
       <p class="roll-count">Rolls: <span id="roll-count">0</span></p>
+      <button id="btn-new" class="btn primary new-bottom">🎯 New Selection</button>
     </section>
   </main>
 
